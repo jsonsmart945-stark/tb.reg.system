@@ -62,14 +62,20 @@ transporter.verify((err) => {
 // Use memory storage for uploads (no disk dependency on Render)
 const upload = multer({ storage: multer.memoryStorage() });
 
-// ── 6. Health Check ────────────────────────────────────────────
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    message: 'Server is running',
-    timestamp: new Date().toISOString(),
-    studentsRegistered: students.length
-  });
+// ── 6. Health / Status Check ───────────────────────────────────
+// Both /api/health and /api/status are supported (different HTML files use different names)
+const healthResponse = (res) => res.json({ 
+  status: 'ok', 
+  message: 'Server is running',
+  timestamp: new Date().toISOString(),
+  studentsRegistered: students.length
+});
+app.get('/api/health', (req, res) => healthResponse(res));
+app.get('/api/status', (req, res) => healthResponse(res));
+
+// Registration open/closed status (used by both HTML files)
+app.get('/api/registration-status', (req, res) => {
+  res.json({ isOpen: true, message: 'Usajili umefunguliwa' });
 });
 
 // ── 7. Registration Endpoint ───────────────────────────────────
