@@ -1,6 +1,4 @@
-const express = require('express');
-const path = require('path'); // 1. Add this at the very top
-const app = express();
+
 
 // ... other middleware like app.use(express.json()) ...
 
@@ -8,8 +6,6 @@ const app = express();
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index_enhanced.html')); 
 });
-
-
 
 const express    = require('express');
 const nodemailer = require('nodemailer');
